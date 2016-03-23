@@ -4,7 +4,7 @@
  * The MIT License
  *
  * @author  : Elias Papadamos
- * @version : 0.1
+ * @version : 0.2
  *
  */
 
@@ -20,6 +20,14 @@
 
     function calculate_characters(element) {
       
+      if(element.attr('data-min') != undefined) {
+        settings.min = element.attr('data-min');
+      }
+
+      if(element.attr('data-max') != undefined) {
+        settings.max = element.attr('data-max');
+      }
+
       infoTextMin = '<div class="charLimitsInfo">'
       infoTextMin += '<span class="charLimitsMin">' + settings.min + ' < </span>'
       infoTextMin += '&nbsp'
