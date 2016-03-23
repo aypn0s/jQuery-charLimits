@@ -26,4 +26,5 @@ First include charLimits.js after jquery.
 ## Data Attributes
 You can pass min and max limits with data-min and data-max attributes on the element.
 Ex.
+
     <textarea class="test" data-min="1" data-max="30"></textarea>
