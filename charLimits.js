@@ -4,7 +4,7 @@
  * The MIT License
  *
  * @author  : Elias Papadamos
- * @version : 0.2
+ * @version : 0.5
  *
  */
 
@@ -12,33 +12,37 @@
   
   $.fn.charLimits = function(options) {
    
-    var settings = $.extend({
-      // Default limits
-      min: 10,
-      max: 100
-    }, options);
+    var settings = $.extend({}, options);
 
     function calculate_characters(element) {
-      
-      if(element.attr('data-min') != undefined) {
-        settings.min = element.attr('data-min');
+
+      if(settings.min) {
+        min = settings.min;
+      } else if(element.attr('data-min') != undefined) {
+        min = element.attr('data-min');
+      } else {
+        min = 10;
       }
 
-      if(element.attr('data-max') != undefined) {
-        settings.max = element.attr('data-max');
+      if(settings.max) {
+        max = settings.max;
+      } else if(element.attr('data-max') != undefined) {
+        max = element.attr('data-max');
+      } else {
+        max = 100;
       }
 
       infoTextMin = '<div class="charLimitsInfo">'
-      infoTextMin += '<span class="charLimitsMin">' + settings.min + ' < </span>'
+      infoTextMin += '<span class="charLimitsMin">' + min + ' < </span>'
       infoTextMin += '&nbsp'
       
       infoTextMax = '&nbsp'
-      infoTextMax += '<span class="charLimitsMax"> < ' + settings.max + '</span>'
+      infoTextMax += '<span class="charLimitsMax"> < ' + max + '</span>'
       infoTextMax += '</div>'
 
       characters = element.val().length;
 
-      if(characters >= settings.min && characters <= settings.max) {
+      if(characters >= min && characters <= max) {
         klass = 'charLimitsOk';
       } else {
         klass = 'charLimitsFail';
@@ -51,7 +55,12 @@
       element.after(infoTextMin + infoTextCurrent + infoTextMax);
     }
 
+    function reset(element) {
+      element.next('.charLimitsInfo').remove();
+    }
+
     return this.each(function() {
+      reset($(this));
       calculate_characters($(this));
       $(this).on('keyup', function(){
         $(this).next('.charLimitsInfo').remove();
