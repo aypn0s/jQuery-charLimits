@@ -4,14 +4,14 @@
  * The MIT License
  *
  * @author  : Elias Papadamos
- * @version : 0.5
+ * @version : 0.6
  *
  */
 
 ;(function($){
-  
+
   $.fn.charLimits = function(options) {
-   
+
     var settings = $.extend({}, options);
 
     function calculate_characters(element) {
@@ -35,12 +35,17 @@
       infoTextMin = '<div class="charLimitsInfo">'
       infoTextMin += '<span class="charLimitsMin">' + min + ' < </span>'
       infoTextMin += '&nbsp'
-      
+
       infoTextMax = '&nbsp'
       infoTextMax += '<span class="charLimitsMax"> < ' + max + '</span>'
       infoTextMax += '</div>'
 
-      characters = element.val().length;
+      if(settings.alternativeText){
+        characters = settings.alternativeText.length;
+      }
+      else{
+        characters = element.val().length;
+      }
 
       if(characters >= min && characters <= max) {
         klass = 'charLimitsOk';
@@ -57,6 +62,10 @@
 
     function reset(element) {
       element.next('.charLimitsInfo').remove();
+    }
+
+    this.setAlternativeText = function(text){
+      settings.alternativeText = text;
     }
 
     return this.each(function() {
